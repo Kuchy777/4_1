@@ -40,7 +40,22 @@ app.get('/math/rectangle/:width/:height', (req, res) => {
 
 
 //TODO3
-
+app.get('/math/power/:base/:exponent', (req, res) => {
+  const rootFlag = req.query.root === 'true';
+  const base = parseFloat(req.params.base);
+  const exponent = parseFloat(req.params.exponent);
+  if (isNaN(base) || isNaN(exponent)) {
+    return res.status(400).json({ error: 'Invalid input' });
+  }
+  const result = Math.pow(base, exponent);
+  if (rootFlag) {
+    const root = Math.pow(base, 1 / exponent);
+    return res.json({ 
+      root: root.toFixed(2),
+      result: result.toFixed(2)});
+  }
+  res.json({ result: result.toFixed(2) });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
