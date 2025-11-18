@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const { parse } = require('path');
 const app = express();
 
 
@@ -20,8 +21,22 @@ if (isNaN(radius) || radius < 0) {
   res.json(result); 
 });
 
-//
-//TODO2
+app.get('/math/rectangle/:width/:height', (req, res) => {
+  const width = parseFloat(req.params.width);
+  const height = parseFloat(req.params.height);
+  if (isNaN(width) || isNaN(height) || width < 0 || height < 0) {
+    return res.status(400).json({ error: 'Invalid dimensions' });
+  }
+  const area = width * height;
+  const perimeter =2*width + 2*height;
+  const result = {
+    area: area.toFixed(2),
+    perimeter: perimeter.toFixed(2)
+
+  };
+  res.json(result);
+
+});
 
 
 //TODO3
